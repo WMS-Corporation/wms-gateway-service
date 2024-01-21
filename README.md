@@ -1,0 +1,1 @@
+# wsm-gateway-service
