@@ -32,6 +32,10 @@ jobs:
 
       - name: Run Tests
         run: npm test
+        env:
+          USERS_SERVICE: 4001
+          
+
 
   sonarCloudCheck:
     name: SonarCloud

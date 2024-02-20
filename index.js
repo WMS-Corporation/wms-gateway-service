@@ -1,7 +1,6 @@
 const express = require('express');
 const cors= require('cors');
-
-const router = require('./src/routes/route');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 /*
 * Allow access from any subroute of http://localhost:3000
@@ -9,15 +8,47 @@ const router = require('./src/routes/route');
 let corsOptions = {
   origin: /http:\/\/localhost:3000\/.*/
 };
-
+const port = process.env.PORT;
 
 const app = express();
 app.use(cors(corsOptions));
+app.use(express.json());
 
-app.use(router);
+const routes = new Map();
+routes.set("users", process.env.USERS_SERVICE);
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+routes.forEach((service_port, route) => {
+    console.log(`/api/${route}`, `http://localhost:${service_port}`);
+    app.use(
+      `/api/${route}`,
+      createProxyMiddleware({
+        target: `http://localhost:${service_port}`,
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: function (path, req) { return path.replace(`/api/${route}`, ''); },
+        onProxyReq: (proxyReq, req, res) => {
+          if ((req.method === "POST" || req.method === "PUT") && req.body) {
+            let body = req.body;
+            let newBody = '';
+            delete req.body;
+  
+            try {
+              newBody = JSON.stringify(body);
+              proxyReq.setHeader('content-length', Buffer.byteLength(newBody, 'utf8'));
+              proxyReq.write(newBody);
+              proxyReq.end();
+            } catch (e) {
+              console.log('Stringify err', e);
+            }
+          } 
+        },
+      })
+    );
+  });
+
+
+app.listen(port, () => {
+  console.log('Server listening on port &{port}');
 });
 
 module.exports = { app };
