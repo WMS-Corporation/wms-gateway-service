@@ -55,6 +55,9 @@ jobs:
 
       - name: Test and coverage
         run: npm run coverage
+        env:
+          PORT: 3000
+          USERS_SERVICE_PORT: 4001
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
