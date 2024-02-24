@@ -1,10 +1,13 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const initRouteFunc = function (app) {
-  const userServiceName = process.env.USERS_SERVICE;
-
+const getRoutes = function () {
   const routes = new Map();
-  routes.set("users", userServiceName);
+  routes.set("users", process.env.USERS_SERVICE_PORT);
+  return routes;
+}
+
+const initRouteFunc = function (app) {
+  const routes = getRoutes();
 
   routes.forEach((service_port, route) => {
     console.log(`/api/${route}`, `http://localhost:${service_port}`);
@@ -41,4 +44,7 @@ const initRouteFunc = function (app) {
   });
 };
 
-module.exports = initRouteFunc;
+module.exports = {
+  initRouteFunc: initRouteFunc,
+  getRoutes: getRoutes
+};
