@@ -21,8 +21,8 @@ app.use(express.json());
 
 initRouteFunc(app);
 
-app.listen(gatewayPort, () => {
+var server = app.listen(gatewayPort, () => {
   console.log(`Server listening on port ${gatewayPort}`);
 });
 
-module.exports = { app };
+module.exports = { app, server };
