@@ -4,7 +4,7 @@ const getRoutes = function () {
   const routes = new Map();
   routes.set("users", process.env.USERS_SERVICE_PORT);
   return routes;
-}
+};
 
 const initRouteFunc = function (app) {
   const routes = getRoutes();
@@ -46,5 +46,5 @@ const initRouteFunc = function (app) {
 
 module.exports = {
   initRouteFunc: initRouteFunc,
-  getRoutes: getRoutes
+  getRoutes: getRoutes,
 };

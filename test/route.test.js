@@ -1,10 +1,10 @@
 // FILEPATH: /c:/Users/Michele Studio/source/repos/PSE-Project/WCs/wms-gateway-service/test/route.test.js
 
-const express = require('express');
-const request = require('supertest');
-const nock = require('nock');
+const express = require("express");
+const request = require("supertest");
+const nock = require("nock");
 const dotenv = require("dotenv");
-const {initRouteFunc, getRoutes} = require("../src/routes/route");
+const { initRouteFunc, getRoutes } = require("../src/routes/route");
 
 describe("initRouteFunc", () => {
   let app;
@@ -19,9 +19,14 @@ describe("initRouteFunc", () => {
   test("should set up routes correctly", () => {
     const routes = getRoutes();
     routes.forEach((service_port, route) => {
-      const middlewareExists = app._router.stack.some(r => r.regexp.test(`/api/${route}`));
+      const middlewareExists = app._router.stack.some((r) =>
+        r.regexp.test(`/api/${route}`)
+      );
       if (!middlewareExists) {
-        console.log('Middleware:', app._router.stack.map(r => r.handle && r.handle.name));
+        console.log(
+          "Middleware:",
+          app._router.stack.map((r) => r.handle && r.handle.name)
+        );
       }
       expect(middlewareExists).toBeTruthy();
     });
@@ -30,41 +35,29 @@ describe("initRouteFunc", () => {
   test("should proxy requests correctly", async () => {
     // Set up a mock HTTP server that responds to GET /users with a 200 status
     const url = `http://localhost:${process.env.USERS_SERVICE_PORT}`;
-    nock(url)
-        .get('/')
-        .reply(200);
+    nock(url).get("/").reply(200);
 
-    const response = await request(app).get('/api/users');
+    const response = await request(app).get("/api/users");
     expect(response.status).toBe(200);
   });
 
-  test('should proxy POST requests with body', (done) => {
-    const body = { key: 'value' };
+  test("should proxy POST requests with body", (done) => {
+    const body = { key: "value" };
     const servicePort = process.env.USERS_SERVICE_PORT;
     const url = `http://localhost:${servicePort}`;
 
-    nock(url)
-      .post('/', body)
-      .reply(200);
+    nock(url).post("/", body).reply(200);
 
-    request(app)
-      .post('/api/users')
-      .send(body)
-      .expect(200, done);
+    request(app).post("/api/users").send(body).expect(200, done);
   });
 
-  test('should proxy PUT requests with body', (done) => {
-    const body = { key: 'value' };
+  test("should proxy PUT requests with body", (done) => {
+    const body = { key: "value" };
     const servicePort = process.env.USERS_SERVICE_PORT;
     const url = `http://localhost:${servicePort}`;
 
-    nock(url)
-      .put('/', body)
-      .reply(200);
+    nock(url).put("/", body).reply(200);
 
-    request(app)
-      .put('/api/users')
-      .send(body)
-      .expect(200, done);
+    request(app).put("/api/users").send(body).expect(200, done);
   });
 });
