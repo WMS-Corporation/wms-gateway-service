@@ -1,54 +1,28 @@
 const express = require('express');
-const cors= require('cors');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const cors = require('cors');
+const dotenv = require('dotenv');
+
+const initRouteFunc = require('./src/routes/route');
+
+dotenv.config();
+
+const gatewayPort = process.env.PORT || 3000;
 
 /*
-* Allow access from any subroute of http://localhost:3000
-* */
+ * Allow access from any subroute of http://localhost:<gatewayPort>
+ */
 let corsOptions = {
-  origin: /http:\/\/localhost:3000\/.*/
+  origin: new RegExp(`http:\/\/localhost:${gatewayPort}\/.*`)
 };
-const port = process.env.PORT;
 
 const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const routes = new Map();
-routes.set("users", process.env.USERS_SERVICE);
+initRouteFunc(app);
 
-routes.forEach((service_port, route) => {
-    console.log(`/api/${route}`, `http://localhost:${service_port}`);
-    app.use(
-      `/api/${route}`,
-      createProxyMiddleware({
-        target: `http://localhost:${service_port}`,
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: function (path, req) { return path.replace(`/api/${route}`, ''); },
-        onProxyReq: (proxyReq, req, res) => {
-          if ((req.method === "POST" || req.method === "PUT") && req.body) {
-            let body = req.body;
-            let newBody = '';
-            delete req.body;
-  
-            try {
-              newBody = JSON.stringify(body);
-              proxyReq.setHeader('content-length', Buffer.byteLength(newBody, 'utf8'));
-              proxyReq.write(newBody);
-              proxyReq.end();
-            } catch (e) {
-              console.log('Stringify err', e);
-            }
-          } 
-        },
-      })
-    );
-  });
-
-
-app.listen(port, () => {
-  console.log('Server listening on port &{port}');
+app.listen(gatewayPort, () => {
+  console.log(`Server listening on port ${gatewayPort}`);
 });
 
 module.exports = { app };
