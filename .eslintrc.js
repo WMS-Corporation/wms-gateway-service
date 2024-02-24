@@ -1,18 +1,14 @@
 module.exports = {
     "env": {
-        "browser": true,
+        "node": true,
         "commonjs": true,
         "es2021": true
     },
     "extends": [
         "eslint:recommended",
-        "plugin:vue/vue3-essential"
     ],
     "overrides": [
         {
-            "env": {
-                "node": true
-            },
             "files": [
                 ".eslintrc.{js,cjs}"
             ],
@@ -24,9 +20,6 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "plugins": [
-        "vue"
-    ],
     "rules": {
         "no-console": "warn",            // Avverte se viene utilizzato console.log() o simili
         "no-unused-vars": "warn",        // Avverte se vengono dichiarate variabili non utilizzate
@@ -36,8 +29,8 @@ module.exports = {
         "space-infix-ops": ["error", {"int32Hint": false}],  // Richiede uno spazio attorno all'operatore di assegnazione (=)
         "arrow-spacing": ["error", { "before": true, "after": true }],  // Richiede uno spazio attorno all'operatore di arrow function (=>)
         "comma-spacing": ["error", { "before": false, "after": true }],  // Richiede uno spazio dopo la virgola e nessuno prima
-        "brace-style": ["error", "1tbs"]  // Tiene gli else sulla stessa linea della parentesi graffa.
-
+        "brace-style": ["error", "1tbs"],  // Tiene gli else sulla stessa linea della parentesi graffa.
+        "no-useless-escape": 0
     },
     "ignorePatterns": [
         "test/**/*.js",
