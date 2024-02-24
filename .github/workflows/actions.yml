@@ -37,6 +37,9 @@ jobs:
           
 
 
+      - name: Run EsLint quality check
+        run: npm run eslint
+
   sonarCloudCheck:
     name: SonarCloud
     runs-on: ubuntu-latest
