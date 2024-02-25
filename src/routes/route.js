@@ -10,7 +10,7 @@ const initRouteFunc = function (app) {
   const routes = getRoutes();
 
   routes.forEach((service_port, route) => {
-    console.log(`/api/${route}`, `http://localhost:${service_port}`);
+    console.log(`/api/${route}`, `http://localhost:${service_port}/${route}`);
     app.use(
       `/api/${route}`,
       createProxyMiddleware({
@@ -18,7 +18,7 @@ const initRouteFunc = function (app) {
         changeOrigin: true,
         secure: false,
         pathRewrite: function (path, req) {
-          return path.replace(`/api/${route}`, "");
+          return path.replace(`/api/${route}`, `/${route}`);
         },
         onProxyReq: (proxyReq, req, res) => {
           if ((req.method === "POST" || req.method === "PUT") && req.body) {
