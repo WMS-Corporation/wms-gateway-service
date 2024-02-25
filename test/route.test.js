@@ -35,7 +35,7 @@ describe("initRouteFunc", () => {
   test("should proxy requests correctly", async () => {
     // Set up a mock HTTP server that responds to GET /users with a 200 status
     const url = `http://localhost:${process.env.USERS_SERVICE_PORT}`;
-    nock(url).get("/users").reply(200);
+    nock(url).get("/").reply(200);
 
     const response = await request(app).get("/api/users");
     expect(response.status).toBe(200);
@@ -46,7 +46,7 @@ describe("initRouteFunc", () => {
     const servicePort = process.env.USERS_SERVICE_PORT;
     const url = `http://localhost:${servicePort}`;
 
-    nock(url).post("/users", body).reply(200);
+    nock(url).post("/", body).reply(200);
 
     request(app).post("/api/users").send(body).expect(200, done);
   });
@@ -56,7 +56,7 @@ describe("initRouteFunc", () => {
     const servicePort = process.env.USERS_SERVICE_PORT;
     const url = `http://localhost:${servicePort}`;
 
-    nock(url).put("/users", body).reply(200);
+    nock(url).put("/", body).reply(200);
 
     request(app).put("/api/users").send(body).expect(200, done);
   });

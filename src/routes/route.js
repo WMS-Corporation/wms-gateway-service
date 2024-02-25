@@ -18,7 +18,7 @@ const initRouteFunc = function (app) {
         changeOrigin: true,
         secure: false,
         pathRewrite: function (path, req) {
-          return path.replace(`/api/${route}`, `/${route}`);
+          return path.replace(`/api/${route}`, ``);
         },
         onProxyReq: (proxyReq, req, res) => {
           if ((req.method === "POST" || req.method === "PUT") && req.body) {
