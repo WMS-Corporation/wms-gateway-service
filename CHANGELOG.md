@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/WMS-Corporation/wms-gateway-service/compare/v1.0.0...v1.0.1) (2024-03-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency express to v4.18.3 ([c044823](https://github.com/WMS-Corporation/wms-gateway-service/commit/c0448233bd01b9f7cc6e0b2017f221da2cecc1e0))
+* **deps:** update dependency nock to v13.5.4 ([4441daf](https://github.com/WMS-Corporation/wms-gateway-service/commit/4441daf976a597c85c4367d1a204710020d9e38e))
+
 ## 1.0.0 (2024-03-02)
 
 
