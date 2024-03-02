@@ -28,6 +28,9 @@ jobs:
 
       - name: Run Tests
         run: npm test
+        env:
+          PORT: 3000
+          USERS_SERVICE_PORT: 4001
 
       - name: Run EsLint quality check
         run: npm run eslint
