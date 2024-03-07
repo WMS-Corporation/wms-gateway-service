@@ -3,6 +3,8 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const getRoutes = function () {
   const routes = new Map();
   routes.set("users", process.env.USERS_SERVICE_PORT);
+  routes.set("products", process.env.PRODUCTS_SERVICE_PORT);
+  routes.set("tasks", process.env.TAKS_SERVICE_PORT);
   return routes;
 };
 
