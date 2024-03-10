@@ -16,44 +16,38 @@ describe("initRouteFunc", () => {
     initRouteFunc(app);
   });
 
-  test("should set up routes correctly", () => {
+  test("should set up routes correctly", async () => {
     const routes = getRoutes();
-    routes.forEach(async (service_port, route) => {
+    for (const [route, service_port] of routes.entries()) {
       const url = `http://localhost:${service_port}`;
       nock(url).get("/").reply(200);
 
       const response = await request(app).get(`/api/${route}`);
       expect(response.status).toBe(200);
-    });
+    }
   });
 
-  test("should proxy POST requests with body", (done) => {
-
+  test("should proxy POST requests with body", async () => {
     const body = { key: "value" };
     const routes = getRoutes();
-    routes.forEach((service_port, route) => {
+    for (const [route, service_port] of routes.entries()) {
       const url = `http://localhost:${service_port}`;
-  
-      nock(url).post("/", body).reply(200);
-  
-      request(app).post(`/api/${route}`).send(body).expect(200, done);
 
-      return true; 
-    });
+      nock(url).post("/", body).reply(200);
+
+      await request(app).post(`/api/${route}`).send(body).expect(200);
+    }
   });
 
-  test("should proxy PUT requests with body", (done) => {
-    
+  test("should proxy PUT requests with body", async () => {
     const body = { key: "value" };
     const routes = getRoutes();
-    routes.forEach((service_port, route) => {
+    for (const [route, service_port] of routes.entries()) {
       const url = `http://localhost:${service_port}`;
 
       nock(url).put("/", body).reply(200);
 
-      request(app).put(`/api/${route}`).send(body).expect(200, done);
-
-      return true; 
-    });
+      await request(app).put(`/api/${route}`).send(body).expect(200);
+    }
   });
 });
