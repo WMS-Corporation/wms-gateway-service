@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/WMS-Corporation/wms-gateway-service/compare/v1.0.1...v1.1.0) (2024-03-10)
+
+
+### Features
+
+* **routes:** added products and tasks routes ([ab339bb](https://github.com/WMS-Corporation/wms-gateway-service/commit/ab339bb9933ec7429c1dc5d0690d4d8a28564514))
+
 ## [1.0.1](https://github.com/WMS-Corporation/wms-gateway-service/compare/v1.0.0...v1.0.1) (2024-03-02)
 
 
