@@ -4,11 +4,11 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const getRoutes = function () {
   const routes = new Map();
   const routesString = process.env.NAME_AND_PORT_SERVICES_LIST;
-  const routesArray = routesString.split(',');
+  const routesArray = routesString.split(';');
 
   routesArray.forEach((route) => {
-    const [name, port] = route.split(':');
-    routes.set(name, port);
+    const [name, service_url] = route.split(',');
+    routes.set(name, service_url);
   });
   return routes;
 };
@@ -17,12 +17,12 @@ const getRoutes = function () {
 const initRouteFunc = function (app) {
   const routes = getRoutes();
 
-  routes.forEach((service_port, route) => {
-    console.log(`/api/${route}`, `http://localhost:${service_port}/${route}`);
+  routes.forEach((service_url, route) => {
+    console.log(`/api/${route}`, `${service_url}/${route}`);
     app.use(
       `/api/${route}`,
       createProxyMiddleware({
-        target: `http://localhost:${service_port}`,
+        target: service_url,
         changeOrigin: true,
         secure: false,
         pathRewrite: function (path, req) {
