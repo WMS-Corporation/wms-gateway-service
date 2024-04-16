@@ -30,7 +30,7 @@ jobs:
         run: npm test
         env:
           PORT: 3000
-          NAME_AND_PORT_SERVICES_LIST: users:4001,products:4002,tasks:4003
+          NAME_AND_PORT_SERVICES_LIST: users,http://localhost:4001;products,http://localhost:4002;tasks,http://localhost:4003;orders,http://localhost:4004;logistics,http://localhost:4005;temperature,http://localhost:4006
 
       - name: Run EsLint quality check
         run: npm run eslint
