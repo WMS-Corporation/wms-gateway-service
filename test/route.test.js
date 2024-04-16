@@ -18,8 +18,8 @@ describe("initRouteFunc", () => {
 
   test("should set up routes correctly", async () => {
     const routes = getRoutes();
-    for (const [route, service_port] of routes.entries()) {
-      const url = `http://localhost:${service_port}`;
+    for (const [route, service_url] of routes.entries()) {
+      const url = `${service_url}`;
       nock(url).get("/").reply(200);
 
       const response = await request(app).get(`/api/${route}`);
@@ -30,8 +30,8 @@ describe("initRouteFunc", () => {
   test("should proxy POST requests with body", async () => {
     const body = { key: "value" };
     const routes = getRoutes();
-    for (const [route, service_port] of routes.entries()) {
-      const url = `http://localhost:${service_port}`;
+    for (const [route, service_url] of routes.entries()) {
+      const url = `${service_url}`;
 
       nock(url).post("/", body).reply(200);
 
@@ -42,8 +42,8 @@ describe("initRouteFunc", () => {
   test("should proxy PUT requests with body", async () => {
     const body = { key: "value" };
     const routes = getRoutes();
-    for (const [route, service_port] of routes.entries()) {
-      const url = `http://localhost:${service_port}`;
+    for (const [route, service_url] of routes.entries()) {
+      const url = `${service_url}`;
 
       nock(url).put("/", body).reply(200);
 
