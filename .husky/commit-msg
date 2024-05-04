@@ -2,7 +2,7 @@
 
 # Regular expression for a Conventional Commit
 
-conventional_commit_regex='^(feat|fix|chore|docs|style|refactor|perf|test)(\([^\)]+\))?: .+'
+conventional_commit_regex='^(feat|fix|chore|docs|style|refactor|perf|test)(\([^\)]+\))?(!)?: .+'
 
 # Additional regular expression for allowing "Merge" commits
 
