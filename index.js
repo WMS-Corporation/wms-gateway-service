@@ -11,7 +11,14 @@ const gatewayPort = process.env.PORT || 3000;
  * Allow access from any subroute of http://localhost:<gatewayPort>
  */
 let corsOptions = {
-  origin: new RegExp(`http:\/\/wms-gateway:${gatewayPort}\/.*`),
+  origin: function (origin, callback) {
+    const allowedOrigins = [`http://wms-gateway:${gatewayPort}`,];
+    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 };
 
 const app = express();
