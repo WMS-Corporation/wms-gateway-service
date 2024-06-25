@@ -1,16 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const socketio = require('socket.io');
-
+const http = require("http");
 const { initRouteFunc } = require("./src/routes/route");
+
+const socketio = require('socket.io');
 
 dotenv.config();
 const gatewayPort = process.env.PORT || 3000;
 
-/*
- * Allow access from any subroute of http://localhost:<gatewayPort>
- */
+// Configurazione CORS
 let corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [`http://wms-gateway:${gatewayPort}`,];
@@ -27,11 +26,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 initRouteFunc(app);
+// Creazione del server HTTP da 'app' di Express
+var server = http.createServer(app);
 
-var server = app.listen(gatewayPort, () => {
-  console.log(`Server listening on port ${gatewayPort}`);
-});
-
+// Inizializzazione di Socket.IO con il server HTTP
 const io = socketio(server, {
   cors: {
     origin: corsOptions.origin, 
@@ -41,16 +39,22 @@ const io = socketio(server, {
   }
 });
 
+// Endpoint per ricevere alert di temperatura dai microservizi
 io.on('connection', (socket) => {
-  console.log(`Socket ${socket.id} connected`);
+  console.log('New connection:', socket.id);
 
-  socket.on('sendMessage', (message) => {
-    io.emit('message', message);
-  });
+  // Ascolto degli eventi di alert di temperatura dal servizio logistico
+  socket.on('temperature-alert', (data) => {
+      console.log('Temperature alert received:', data);
 
-  socket.on('disconnect', () => {
-    console.log(`Socket ${socket.id} disconnected`);
+      // Inoltro dell'alert ai client connessi
+      // Puoi anche filtrare i client a cui vuoi inviare l'alert
+      io.emit('temperature-alert', data);
   });
+});
+
+server.listen(gatewayPort, () => {
+  console.log(`Server listening on port ${gatewayPort}`);
 });
 
 module.exports = { app, server };
