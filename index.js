@@ -32,9 +32,9 @@ var server = http.createServer(app);
 // Inizializzazione di Socket.IO con il server HTTP
 const io = socketio(server, {
   cors: {
-    origin: corsOptions.origin, 
-    methods: ["GET", "POST"], 
-    allowedHeaders: ["my-custom-header"], 
+    origin: corsOptions.origin,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
     credentials: true,
   }
 });
@@ -43,13 +43,13 @@ const io = socketio(server, {
 io.on('connection', (socket) => {
   console.log('New connection:', socket.id);
 
-  // Ascolto degli eventi di alert di temperatura dal servizio logistico
   socket.on('temperature-alert', (data) => {
-      console.log('Temperature alert received:', data);
-
-      // Inoltro dell'alert ai client connessi
-      // Puoi anche filtrare i client a cui vuoi inviare l'alert
-      io.emit('temperature-alert', data);
+    console.log('Temperature alert received:', data);
+    io.emit('temperature-alert', data);
+  });
+  socket.on('lowStockAlert', (data) => {
+    console.log('Low stock alert:', data);
+    io.emit('lowStockAlert', data);
   });
 });
 
