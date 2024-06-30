@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.0](https://github.com/WMS-Corporation/wms-gateway-service/compare/v1.0.1...v1.1.0) (2024-06-30)
+
+
+### Features
+
+* **gateway:** first socketIO chat test ([d8573f7](https://github.com/WMS-Corporation/wms-gateway-service/commit/d8573f7ecbcbf10e15701a3c69a27788e5721bd1))
+* **gateway:** new socketio event hadled for product low stock alert ([87ca67d](https://github.com/WMS-Corporation/wms-gateway-service/commit/87ca67d3d543cb092b2b3965908d5bb246a1bb84))
+* **gateway:** socketio temperature proxy implementation ([a138dff](https://github.com/WMS-Corporation/wms-gateway-service/commit/a138dfffd2ef22551230138d6e38b4485cb1460c))
+* **routes:** added products and tasks routes ([ab339bb](https://github.com/WMS-Corporation/wms-gateway-service/commit/ab339bb9933ec7429c1dc5d0690d4d8a28564514))
+
+
+### Bug Fixes
+
+* **gateway:** fixed cors for localhost ([61e31c8](https://github.com/WMS-Corporation/wms-gateway-service/commit/61e31c8b4ce53c148cbf1a4941eb7d98f6a25faa))
+* **gateway:** removed bat for debug ([dc2f510](https://github.com/WMS-Corporation/wms-gateway-service/commit/dc2f510788898b244c72f05e77a3a3f0044e5aec))
+* **gateway:** route configuration modified to handle all service_url instead of only port ([31c2902](https://github.com/WMS-Corporation/wms-gateway-service/commit/31c290257ce67e56d6d94583a2894199bde0f402))
+
 ## [1.0.1](https://github.com/WMS-Corporation/wms-gateway-service/compare/v1.0.0...v1.0.1) (2024-03-02)
 
 
