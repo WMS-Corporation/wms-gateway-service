@@ -1,4 +1,4 @@
-FROM node:20.2.0-alpine
+FROM node:20.18.0-alpine
 
 # Set the working directory to /app
 WORKDIR /wms-gateway-service
